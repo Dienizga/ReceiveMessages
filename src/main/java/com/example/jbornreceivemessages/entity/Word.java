@@ -3,7 +3,6 @@ package com.example.jbornreceivemessages.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Set;
 
 import static java.util.Collections.emptySet;
@@ -13,13 +12,14 @@ import static java.util.Collections.emptySet;
 @Data
 public class Word {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private String value;
 
-    @ElementCollection(targetClass = LocalDate.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "data")
-    @Column(name = "role")
-    private Set<LocalDate> date = emptySet();
+    @Column(name = "date_receive")
+    private Set<String> date = emptySet();
 }

@@ -1,18 +1,34 @@
-server:
-  port: 8081
-
-topic:
-  name: Word
-
 spring:
-  kafka:
-    consumer:
-      group-id: "default"
-
   liquibase:
     change-log: classpath:liquibase.xml
   datasource:
-      url: jdbc:postgresql://localhost:5432/postgres
-      username: postgres
-      password: postgres
-      driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: consumer
+  kafka:
+    bootstrap-servers: host.docker.internal:29092,host.docker.internal:29093
+    producer:
+      client-id: ${spring.application.name}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: ${spring.application.name}
+      autoOffsetReset: earliest
+#      keyDeserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      valueDeserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      spring.json.value.default.type: com.example.jbornreceivemessages.entity.Word
+      spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+      spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+
+kafka:
+  topics:
+    topic: words
+
+server:
+  port: 8090
