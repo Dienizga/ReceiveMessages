@@ -19,8 +19,6 @@ spring:
     consumer:
       group-id: ${spring.application.name}
       autoOffsetReset: earliest
-#      keyDeserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
-#      valueDeserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
     properties:
       spring.json.value.default.type: com.example.jbornreceivemessages.entity.Word
       spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
